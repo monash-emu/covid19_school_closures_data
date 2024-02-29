@@ -1,0 +1,70 @@
+#
+#  "Floating" requirements file with no version pinning
+#  Used for automated testing on latest package versions
+#
+
+# Summer compartmental modelling
+# https://github.com/monash-emu/summer
+# will also include
+# - numba
+# - numpy
+# - networkx
+# - scipy
+# https://github.com/monash-emu/summer/blob/master/pyproject.toml#L21
+summerepi==3.6.2
+summerepi2==1.0.3
+
+# Interaction
+jupyterlab
+jupyterlab_templates
+ipympl
+
+# Data visualization
+matplotlib
+seaborn
+plotly
+cufflinks
+kaleido
+
+# Numerical computing
+numpy
+pandas
+openpyxl
+pyDOE
+numba
+scipy
+networkx
+numpyro
+
+# Database access
+SQLAlchemy
+pyarrow
+
+# Utility
+pyyaml
+pydantic
+pyAesCrypt
+googledrivedownloader
+statsmodels
+fpdf2
+gitpython
+
+# Testing
+pytest
+pytest-parallel
+pytest-benchmark
+black
+isort
+moto[s3]  # Mock out AWS S3 storage
+
+# Notebook management
+nbstripout
+
+# AWS / buildkite infrastructure
+boto3
+timeago
+click
+tabulate
+awscli
+fabric
+s3fs

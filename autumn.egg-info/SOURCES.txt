@@ -1,0 +1,12 @@
+LICENSE.txt
+README.md
+pyproject.toml
+setup.py
+autumn/__init__.py
+autumn/__main__.py
+autumn.egg-info/PKG-INFO
+autumn.egg-info/SOURCES.txt
+autumn.egg-info/dependency_links.txt
+autumn.egg-info/not-zip-safe
+autumn.egg-info/top_level.txt
+tests/test_benchmarks.py

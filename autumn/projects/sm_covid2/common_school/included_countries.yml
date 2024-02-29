@@ -1,0 +1,112 @@
+all:
+  ARG: Argentina
+  AUS: Australia
+  AUT: Austria
+  BEL: Belgium
+  BGD: Bangladesh
+  BGR: Bulgaria
+  BIH: Bosnia and Herzegovina
+  BOL: Bolivia, Plurinational State of
+  BRA: Brazil
+  CAN: Canada
+  CHL: Chile
+  COL: Colombia
+  CRI: Costa Rica
+  CZE: Czechia
+  DEU: Germany
+  DNK: Denmark
+  ECU: Ecuador
+  EGY: Egypt
+  ESP: Spain
+  FIN: Finland
+  FRA: France
+  GBR: United Kingdom
+  GEO: Georgia
+  GRC: Greece
+  GTM: Guatemala
+  HND: Honduras
+  HRV: Croatia
+  HUN: Hungary
+  IDN: Indonesia
+  IND: India
+  IRL: Ireland
+  IRQ: Iraq
+  ISR: Israel
+  ITA: Italy
+  JOR: Jordan
+  JPN: Japan
+  KAZ: Kazakhstan
+  KEN: Kenya
+  KOR: Korea, Republic of
+  LBN: Lebanon
+  LKA: Sri Lanka
+  LTU: Lithuania
+  LVA: Latvia
+  MAR: Morocco
+  MDA: Moldova, Republic of
+  MEX: Mexico
+  MKD: North Macedonia
+  MMR: Myanmar
+  MYS: Malaysia
+  NLD: Netherlands
+  NPL: Nepal
+  PAK: Pakistan
+  PAN: Panama
+  PER: Peru
+  PHL: Philippines
+  POL: Poland
+  PRT: Portugal
+  PRY: Paraguay
+  ROU: Romania
+  RUS: Russian Federation
+  SAU: Saudi Arabia
+  SRB: Serbia
+  SVK: Slovakia
+  SVN: Slovenia
+  SWE: Sweden
+  THA: Thailand
+  TUR: Turkey
+  UKR: Ukraine
+  URY: Uruguay
+  USA: United States
+  VEN: Venezuela, Bolivarian Republic of
+  VNM: Viet Nam
+  ZAF: South Africa
+  ZWE: Zimbabwe
+national_sero:
+  AUS: Australia
+  AUT: Austria
+  BEL: Belgium
+  BRA: Brazil
+  CAN: Canada
+  CHL: Chile
+  COL: Colombia
+  CZE: Czechia
+  DEU: Germany
+  DNK: Denmark
+  ECU: Ecuador
+  EGY: Egypt
+  ESP: Spain
+  FRA: France
+  GBR: United Kingdom
+  HND: Honduras
+  HRV: Croatia
+  HUN: Hungary
+  IND: India
+  ISR: Israel
+  ITA: Italy
+  JOR: Jordan
+  JPN: Japan
+  KAZ: Kazakhstan
+  KEN: Kenya
+  KOR: Korea, Republic of
+  LBN: Lebanon
+  LTU: Lithuania
+  MEX: Mexico
+  NPL: Nepal
+  PAK: Pakistan
+  PRT: Portugal
+  SVN: Slovenia
+  SWE: Sweden
+  USA: United States
+  ZAF: South Africa

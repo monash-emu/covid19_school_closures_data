@@ -1,0 +1,247 @@
+---
+# Parameters used to build a general model of sm_covid
+description: BASELINE
+
+country:
+  iso3: PHL
+
+age_groups:
+  - 0
+  - 15
+  - 25
+  - 50
+  - 70
+
+serodata_age:
+  min: null
+  max: null
+
+population:
+  region: null
+  year: 2020
+
+time:
+  start: 0
+  end: 1096 # 731  31 Dec 2021  # 1096  # 31 Dec 2022
+  step: 1
+
+compartment_replicates:
+  latent: 4
+  infectious: 4
+
+latency_infectiousness:
+  n_infectious_comps: 2
+  rel_infectiousness: .5
+
+contact_rate: 0.05
+infectious_seed_time: 60
+seed_duration: 7
+
+sojourns:
+  latent: 6.65  # wild-type
+  active: 4.5
+
+mobility:
+  region: null
+  mixing:
+    school:  # populate the school component to have schools always open when UNESCO data are not being used
+      append: False
+      times: [0]
+      values: [1.]
+  age_mixing: null
+  # Mapping of Google mobility locations to Prem-specific locations
+  google_mobility_locations:
+    work:
+      workplaces: 1.
+    other_locations:
+      retail_and_recreation: 0.33334
+      grocery_and_pharmacy: 0.33333
+      transit_stations: 0.33333
+  smooth_google_data: true  # whether to apply a 7-day moving average
+  square_mobility_effect: true
+  microdistancing: {}
+  apply_unesco_school_data: true  # if true, will override school mixing inputs
+  unesco_partial_opening_value: .2
+  unesco_full_closure_value: 0.
+
+school_multiplier: 1.  # just adds uncertainty around school contribution
+hh_contact_increase: 0.  #.20  # relative increase in household contact rates when schools are fully closed
+
+# Age-related parameters
+age_stratification:
+  susceptibility:  # zhang-2020-a, ORs converted to RRs using Tables S14 and S15
+    0: 0.36
+    5: 0.36
+    10: 0.36
+    15: 1.
+    20: 1.
+    25: 1.
+    30: 1.
+    35: 1.
+    40: 1.
+    45: 1.
+    50: 1.
+    55: 1.
+    60: 1.
+    65: 1.
+    70: 1.41
+    75: 1.41
+
+  prop_symptomatic:  # sah-2021
+    0: 0.533
+    5: 0.533
+    10: 0.533
+    15: 0.533
+    20: 0.679
+    25: 0.679
+    30: 0.679
+    35: 0.679
+    40: 0.679
+    45: 0.679
+    50: 0.679
+    55: 0.679
+    60: 0.803
+    65: 0.803
+    70: 0.803
+    75: 0.803
+
+  prop_hospital: # Proportion of symptomatic persons that are hospitalised - Dutch GGD report from 4th August 2020, Table 3
+    values:  
+      0: 0.0777
+      5: 0.0069
+      10: 0.0034
+      15: 0.0051
+      20: 0.0068 
+      25: 0.0080
+      30: 0.0124 
+      35: 0.0129
+      40: 0.0190 
+      45: 0.0331
+      50: 0.0383 
+      55: 0.0579
+      60: 0.0617
+      65: 0.1030
+      70: 0.1072
+      75: 0.0703
+    multiplier: 1.
+
+  ifr:
+    values:  # last column of Table S3 (Mendeley citation key ODriscoll2020) 
+      0: 0.00003 # 0-4
+      5: 0.00001 # 5-9
+      10: 0.00001 # 10-14
+      15: 0.00003 # 15-19
+      20: 0.00006 # 20-24
+      25: 0.00013 # 25-29
+      30: 0.00024 # 30-34
+      35: 0.00040 # 35-39
+      40: 0.00075 # 40-44
+      45: 0.00121 # 45-49
+      50: 0.00207 # 50-54
+      55: 0.00323 # 55-59
+      60: 0.00456 # 60-64
+      65: 0.01075 # 65-69
+      70: 0.01674 # 70-74
+      75: 0.03203 # 75-79
+      80: 0.08292 # 80+
+    multiplier: 1.   
+
+is_dynamic_mixing_matrix: true
+
+# parameters related to immunity stratification (two strata: unvaccinated / vaccinated)
+vaccine_effects:
+  ve_infection: .7   
+  ve_hospitalisation: .9 
+  ve_death: .9  
+
+# voc_emergence: null
+voc_emergence:
+  wild_type:
+    starting_strain: true
+    seed_prop: 1.
+    new_voc_seed: null
+    contact_rate_multiplier: 1.
+    incubation_overwrite_value: 6.65 # Wu et al. doi:10.1001/jamanetworkopen.2022.28008
+    vacc_immune_escape: 0.
+    hosp_risk_adjuster: 1.
+    death_risk_adjuster: 1.
+    icu_risk_adjuster: 1.
+    cross_protection:
+      wild_type: 1.
+      delta: 0.82  # https://doi.org/10.1016/S0140-6736(22)02465-5
+      omicron: 0.45 # https://doi.org/10.1016/S0140-6736(22)02465-5
+  delta:
+    starting_strain: false
+    seed_prop: 0.
+    new_voc_seed:
+      time_from_gisaid_report: 0.
+      seed_duration: 10.
+    contact_rate_multiplier: 1.5 
+    incubation_overwrite_value: 4.41 # Wu et al. doi:10.1001/jamanetworkopen.2022.28008
+    vacc_immune_escape: .3
+    hosp_risk_adjuster: 2.0 
+    death_risk_adjuster: 2.3 
+    icu_risk_adjuster: 3.4 # Fisman et al. doi: 10.1503/cmaj.211248
+    cross_protection:
+      wild_type: 1.
+      delta: 1.
+      omicron: .45  # https://doi.org/10.1016/S0140-6736(22)02465-5
+  omicron:
+    starting_strain: false
+    seed_prop: 0.
+    new_voc_seed:
+      time_from_gisaid_report: 0.
+      seed_duration: 10.
+    contact_rate_multiplier: 2. # DOI: 10.1503/cmaj.211248
+    incubation_overwrite_value: 3.42 # Wu et al. doi:10.1001/jamanetworkopen.2022.28008
+    vacc_immune_escape: .6  # DOI: 10.1503/cmaj.211248
+    hosp_risk_adjuster: 0.82 # Multiply Nyberg by Fisman = 0.41*2 = 0.82
+    death_risk_adjuster: 0.71 # Multiply Nyberg by Fisman =0.31*2.3=0.713
+    icu_risk_adjuster: 1. # FIXME dummy value for now but not used at the moment
+    cross_protection:
+      wild_type: 1.
+      delta: 1.
+      omicron: 1.
+
+time_from_onset_to_event:  # using time of symptom onset as reference 
+  hospitalisation:
+    distribution: gamma
+    shape: 5.
+    mean: 3.
+  icu_admission:  # using time of hospitalisation as reference
+    distribution: gamma
+    shape: 5.
+    mean: 2.8 # Estimates taken from ISARIC report 4th Oct 2020 (Mendeley citation key Pritchard2020}
+  death:
+    distribution: gamma
+    shape: 10.
+    mean: 15.93 # Malahat Khalili et al. . https://doi.org/10.1017/S0950268820001430
+
+prop_icu_among_hospitalised: .08  # NSW data
+
+hospital_stay:
+  hospital_all:
+    distribution: gamma
+    shape: 5.
+    mean: 9 
+
+  icu:
+    distribution: gamma
+    shape: 5.
+    mean: 4.7 # NSW data: https://aci.health.nsw.gov.au/__data/assets/pdf_file/0007/698785/20220112-COVID-19-Risk-Monitoring-Dashboard.pdf
+
+activate_random_process: True
+random_process: 
+  affected_locations: ["home", "school", "work", "other_locations"]
+  order: 1
+  noise_sd: .5
+  delta_values: [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+  time: 
+    start: 92  # 1 Apr 2020. Need to make sure this is greater than the seed time to prevent identifiability issues with contact rate
+    end: 1036  # 1096 => 31 Dec 2022  (1096 - step = 1096 - 60 = 1036)
+    step: 60
+
+requested_cumulative_outputs: ["incidence", "infection_deaths"]
+cumulative_start_time: 0.
+request_incidence_by_age: True
+request_immune_prop_by_age: False
