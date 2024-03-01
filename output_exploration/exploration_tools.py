@@ -51,7 +51,15 @@ def get_derived_output_widget():
 
 
 
-def load_analysis_outputs(iso3, analysis):    
+def load_analysis_outputs(folder_path):    
+    uncertainty_dfs = {sc: pd.read_parquet(folder_path / f"uncertainty_df_{sc}.parquet") for sc in ["baseline", "scenario_1"]}
+    diff_quantiles_df = pd.read_parquet(folder_path / f"diff_quantiles_df.parquet")
+    derived_outputs = pd.read_pickle(folder_path / "derived_outputs.pickle") 
+
+    return uncertainty_dfs, diff_quantiles_df, derived_outputs
+
+
+def load_analysis_outputs_local(iso3, analysis):    
     folder_path = Path.cwd() / analysis / iso3
 
     uncertainty_dfs = {sc: pd.read_parquet(folder_path/ f"uncertainty_df_{sc}.parquet") for sc in ["baseline", "scenario_1"]}
