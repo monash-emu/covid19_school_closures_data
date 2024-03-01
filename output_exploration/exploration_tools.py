@@ -1,9 +1,8 @@
 import pandas as pd
 from pathlib import Path
 import ipywidgets as widgets
-from autumn.projects.sm_covid2.common_school.output_plots import country_highlight as ch
-
-from autumn.projects.sm_covid2.common_school.runner_tools import INCLUDED_COUNTRIES
+import plotly.graph_objects as go
+# from autumn.projects.sm_covid2.common_school.output_plots import country_highlight as ch
 
 analysis_names = {
     "main": "Base case analysis",
@@ -11,8 +10,8 @@ analysis_names = {
     "no_google_mobility": "SA2: Without Google mobility data"
 }
 
-def get_analysis_widgets():
-    dropdown_countries = [(c, iso3) for iso3, c in INCLUDED_COUNTRIES['all'].items()]
+def get_analysis_widgets(included_countries):
+    dropdown_countries = [(c, iso3) for iso3, c in included_countries.items()]
     iso3_widget = widgets.Dropdown(
         options=dropdown_countries,
         value="AUS",
@@ -94,13 +93,70 @@ def get_diff_quantiles_table(diff_quantiles_df):
 
 sc_names = {"baseline": "Historical", "scenario_1": "Counterfactual (schools open)"}
 
-def plot_derived_outputs(derived_outputs, output, iso3, analysis):    
+def plot_derived_outputs(derived_outputs, output, country_name, analysis):    
     df = pd.DataFrame({sc_names[sc]: derived_outputs[sc][output] for sc in derived_outputs})
-    ax = df.plot(labels={"value": output,"variable": "Scenario"}, title=f"{INCLUDED_COUNTRIES['all'][iso3]} - {analysis_names[analysis]}")
+    ax = df.plot(labels={"value": output,"variable": "Scenario"}, title=f"{country_name} - {analysis_names[analysis]}")
     ax.show()
 
-def plot_uncertainty(uncertainty_dfs, output, iso3, analysis):
+def plot_uncertainty(uncertainty_dfs, output, country_name, analysis):
 
     for sc in uncertainty_dfs:
-        f = uncertainty_dfs[sc][output].plot(labels={"value": output}, title= f"{INCLUDED_COUNTRIES['all'][iso3]} - {analysis_names[analysis]} <br> {sc_names[sc]} scenario")
-        f.show()
+
+        df = uncertainty_dfs[sc][output]
+
+        if sc == 'baseline':
+            light_shade = "lightskyblue"
+            dark_shade = "cornflowerblue"
+        else:
+            light_shade = "pink"
+            dark_shade = "coral"
+
+
+        fig = go.Figure()
+
+        for q in df.columns:
+            fig.add_traces(go.Scatter(x=df.index, y = df[q],
+                                        line = dict(width=0),
+                                        name=f"{100 * float(q)}%",
+                                        showlegend=False
+                                        )
+                )
+
+        fig.add_traces(go.Scatter(x=df.index, y = df['0.025'],
+                                    line = dict(width=0),
+                                    fill='tonexty', 
+                                    fillcolor =light_shade,
+                                    showlegend=True,
+                                    name='95% CI',
+                                    hoverinfo='skip'
+                                    )
+        )
+
+        fig.add_traces(go.Scatter(x=df.index, y = df['0.25'],
+                                    line = dict(width=0),
+                                    name=f"{100 * float(q)}%",
+                                    showlegend=False,
+                                    hoverinfo='skip'
+                                )
+            )
+
+        fig.add_traces(go.Scatter(x=df.index, y = df['0.75'],
+                                    line = dict(width=0),
+                                    fill='tonexty', 
+                                    fillcolor =dark_shade,
+                                    showlegend=True,
+                                    name='IQR',
+                                    hoverinfo='skip'
+                                    )
+        )
+
+        fig.add_traces(go.Scatter(x=df.index, y = df['0.5'],
+                                    line = dict(width=2, color="black"),
+                                    name="median",
+                                    showlegend=True,
+                                   
+                                )
+            )
+
+        fig.update_layout(title= f"{country_name} - {analysis_names[analysis]} <br> {sc_names[sc]} scenario")
+        fig.show()
