@@ -3,19 +3,30 @@
 <html>
 
 <body>
+    This page presents detailed model outputs associated with the following article: <br><br>
+    <i>Estimating the impact of school closures on the COVID-19 dynamics in 74 countries: a modelling analysis.</i> <br>
+    
+    <small>Romain Ragonnet, Angus E Hughes, David S Shipman, Michael T Meehan, Alec S Henderson, Guillaume Briffoteaux, Nouredine Melab, Daniel Tuyttens, Emma S McBryde, James M Trauer.</small>
+    
+    <br><br>
 
-    <h1>{{country}}</h1>
+    <a href="">Back to analysis selection index page</a>
 
-    <h2>{{analysis}}</h2>
+    <h2>Selected country: {{country}}</h1>
+    <h2>Selected analysis: {{analysis}}</h2>
+    <ul>
+        <li> The first panel presents a scenario comparison based on the maximum a-posteriori parameter set.</li>
+        <li> The second and third panels present the uncertainty around the estimated epidemic trajectories, as median (black lines), interquartile range (dark shade) and 95% credible interval (light shade).</li>
+    </ul>
 
     {{ fig }}
 
-    <p>Relative outcomes
+
+    <h3>Relative outcomes</h3>
     <ul>
         <li>Positive values indicate a positive effect of school closures on the relevant indicator.</li>
         <li>Negative values indicate that school closures exacerbated the relevant COVID-19 indicator..</li>
     </ul>
-    </p>
 
     {{ table }}
 
